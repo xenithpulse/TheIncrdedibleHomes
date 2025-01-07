@@ -13,8 +13,10 @@ export default function ProductForm({
   images: existingImages,
   category: assignedCategory,
   properties: assignedProperties,
+  slug: existingslug
 }) {
   const [title, setTitle] = useState(existingTitle || '');
+  const [slug, setSlug] = useState(existingslug || '');
   const [description, setDescription] = useState(existingDescription || '');
   const [category, setCategory] = useState(assignedCategory || '');
   const [price, setPrice] = useState(existingPrice || '');
@@ -60,8 +62,8 @@ export default function ProductForm({
 
   async function saveProduct(ev) {
     ev.preventDefault();
-    if (!title || !price || !category) {
-      alert('Title, price, and category are required fields.');
+    if (!title || !price || !category || !slug) {
+      alert('Title, price, slug, and category are required fields.');
       return;
     }
 
@@ -72,6 +74,7 @@ export default function ProductForm({
       discounted_percentage,
       images,
       category,
+      slug: slug.toLowerCase().replace(/\s+/g, '-'),
       properties: customProperties.reduce((acc, property) => {
         if (property.name && Array.isArray(property.options)) {
           acc[property.name] = property.options;
@@ -161,6 +164,14 @@ export default function ProductForm({
         placeholder="Product name"
         value={title}
         onChange={ev => setTitle(ev.target.value)}
+      />
+
+      <label>Slug (For URL address)</label>
+      <input
+        type="text"
+        placeholder="Must Be UNIQUE"
+        value={slug}
+        onChange={ev => setSlug(ev.target.value)}
       />
 
       <label>Category</label>

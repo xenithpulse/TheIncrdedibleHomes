@@ -25,6 +25,7 @@ export default async function handle(req, res) {
       category,
       properties,
       featured,
+      slug,
     } = req.body;
     const productDoc = await Product.create({
       title,
@@ -35,13 +36,14 @@ export default async function handle(req, res) {
       category,
       properties,
       featured,
+      slug,
     });
     res.json(productDoc);
   }
   if (method === 'PUT') {
 
-    const {title,description,price,images,category,properties,_id, discounted_percentage, featured} = req.body;
-    await Product.updateOne({_id}, {title,description,price,images,category,properties, discounted_percentage, featured});
+    const {title,description,price,images,category,properties,_id, discounted_percentage, featured, slug} = req.body;
+    await Product.updateOne({_id}, {title,description,price,images,category,properties, discounted_percentage, featured, slug});
     res.json(true);
   }
   
